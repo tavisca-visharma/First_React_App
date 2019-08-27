@@ -1,50 +1,50 @@
 import React, { Component } from 'react';
 class UserDetails extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.index = null;
         this.counter = 0;
         this.state = {
-            "firstName" : "",
-            "lastName" : ""
+            "firstName": "",
+            "lastName": ""
         }
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
 
-        if(this.props.index !== null && this.counter < 1){
+        if (this.props.index !== null && this.counter < 1) {
             this.setState({
-                firstName : this.props.users[this.props.index].split(" ")[0],
+                firstName: this.props.users[this.props.index].split(" ")[0],
                 lastName: this.props.users[this.props.index].split(" ")[1]
             });
             this.counter++;
             console.log(this.state)
-            
+
         }
-        if(this.index !== this.props.index && this.counter >= 1){
+        if (this.index !== this.props.index && this.counter >= 1) {
             this.index = this.props.index;
-            
-           this.counter = 0;
+
+            this.counter = 0;
             this.forceUpdate();
         }
-        
+
     }
 
-    firstNameUpdate(value){
+    firstNameUpdate(value) {
         console.log(value)
         this.setState({
-            firstName : value
-        })
-    }
-    
-    lastNameUpdate(value){
-        this.setState({
-            lastName : value        
+            firstName: value
         })
     }
 
-    componentWillReceiveProps(){
+    lastNameUpdate(value) {
+        this.setState({
+            lastName: value
+        })
+    }
+
+    componentWillReceiveProps() {
         console.log(this.props.users, this.props.index);
         // if(this.props.index != null){
         //     this.setState({
@@ -61,15 +61,48 @@ class UserDetails extends Component {
 
     }
 
-    showInputs(){
+
+    updateUserStyle = {
+        margin: "auto",
+        width: "fit-content"
+        
+    }
+
+    inputsStyle = {
+        width : 200,
+        height: 30,
+        fontFamily : "Georgia",
+        fontSize : 20,
+        backgroundColor : "lightyellow"
+    }
+
+    buttonStyle = {
+        width : 100,
+        height : 30,
+        backgroundColor : "brown",
+        color : "white"
+    }
+
+    labelStyle = {
+        width : 200,
+        height: 30,
+        fontFamily : "Georgia",
+        fontSize : 20,
+    }
+
+    showInputs() {
         return (
-                <div id="updateUsers">
-                    <input id="firstName" onChange={(e) => this.firstNameUpdate(e.target.value)}  value= {this.state.firstName} placeholder="Enter FirstName" type="text" />
-                    <input id="lastName"  onChange={(e) => this.lastNameUpdate(e.target.value)} value= {this.state.lastName} placeholder="Enter LastName" type="text" />
-                    <button onClick={() => this.props.updateName(document.getElementById("firstName").value
-                        , document.getElementById("lastName").value, this.props.index
-                    )}> Update </button>
-                </div>
+            <div id="updateUsers" style={this.updateUserStyle}>
+                <h1><center>Update Details</center></h1><br/>
+                <label style = {this.labelStyle} >First Name : </label>
+                <input id="firstName" style = {this.inputsStyle} onChange={(e) => this.firstNameUpdate(e.target.value)} value={this.state.firstName} placeholder="Enter FirstName" type="text" />
+                <br/>
+                <label style = {this.labelStyle}>Last Name &nbsp;: </label> <input id="lastName" style = {this.inputsStyle} onChange={(e) => this.lastNameUpdate(e.target.value)} value={this.state.lastName} placeholder="Enter LastName" type="text" />
+                <br/>
+                <button style = {this.buttonStyle} onClick={() => this.props.updateName(document.getElementById("firstName").value
+                    , document.getElementById("lastName").value, this.props.index
+                )}> Update </button>
+            </div>
         )
     }
 

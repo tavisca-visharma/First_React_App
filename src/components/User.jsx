@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import UserDetails from "./UserDetails";
 
 class User extends Component {
     
@@ -14,28 +13,27 @@ class User extends Component {
     color: "white"
   };
 
-  handleOnClick() {
+  handleOnClick(value, index) {
     console.log(this);
-    console.log("clicked");
-    this.setState({
-      viewUserDetails: !this.state.viewUserDetails
-    });
+    console.log(value);
+    console.log(index);
+    this.props.handleClick(value, index);
   }
 
-  getComponent() {
-    if (this.state.viewUserDetails) {
-      console.log("Heeeeeeloo");
-      return <UserDetails/>;
-    } else {
-      return "";
-    }
-  }
+  // getComponent() {
+  //   if (this.state.viewUserDetails) {
+  //     console.log("Heeeeeeloo");
+  //     return <UserDetails/>;
+  //   } else {
+  //     return "";
+  //   }
+  // }
 
   render() {
-    this.handleOnClick = this.handleOnClick.bind(this);
+    // this.handleOnClick = this.handleOnClick.bind(this);
     return (
       <React.Fragment>
-        <button onClick={this.handleOnClick} style={this.buttonStyle}>
+        <button onClick={() => this.handleOnClick(this.props.value, this.props.index)} style={this.buttonStyle}>
           {this.props.value}
         </button>
         {this.getComponent}

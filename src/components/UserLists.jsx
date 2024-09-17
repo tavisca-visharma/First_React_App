@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import User from "./User.jsx";
 
+
 class UserLists extends Component {
-    state = { 
-        users : ["Vishal Sharma" , "Tim Cook"]
-     };
+    constructor(props){
+        super(props);
+        this.state = { 
+         };
+    }
+    
 
      ulStyle = {
          paddingTop :20,
@@ -14,10 +18,21 @@ class UserLists extends Component {
          backgroundColor : "pink"
      }
 
+     
+
+     handleClick(value,index){
+         
+        console.log("parent-" + index);
+        this.props.handleClick(value,index)
+        // ReactDOM.render(<UserDetails index = {value} />);
+     }
+
+    
+
     render() { 
         return ( 
             <ul style = {this.ulStyle}>
-                {this.state.users.map( users => <li key = {users}> <User value = {users}/> </li>)}
+                {this.props.users.map((users,index) => <li key = {users}> <User index={index} value = {users} handleClick={this.handleClick.bind(this)}/> </li>)}
             </ul>
          );
     }

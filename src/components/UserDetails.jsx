@@ -1,35 +1,122 @@
 import React, { Component } from 'react';
 class UserDetails extends Component {
-    state = { 
-        users : []
-     };
 
-     updateButtonStyle={
-         height : 30,
-         width : 80,
-         backgroundColor : "yellow",
-         color : "red"
-
-     }
-
-    render() { 
-
-        let name = this.props.value;
-        let firstName = "";
-        let lastName = "";
-        if(name !== undefined){
-            firstName = name.split(" ")[0];
-            lastName = name.split(" ")[1];
+    constructor(props) {
+        super(props);
+        this.index = null;
+        this.counter = 0;
+        this.state = {
+            "firstName": "",
+            "lastName": ""
         }
+    }
+
+    componentDidUpdate() {
+
+        if (this.props.index !== null && this.counter < 1) {
+            this.setState({
+                firstName: this.props.users[this.props.index].split(" ")[0],
+                lastName: this.props.users[this.props.index].split(" ")[1]
+            });
+            this.counter++;
+            console.log(this.state)
+
+        }
+        if (this.index !== this.props.index && this.counter >= 1) {
+            this.index = this.props.index;
+
+            this.counter = 0;
+            this.forceUpdate();
+        }
+
+    }
+
+    firstNameUpdate(value) {
+        console.log(value)
+        this.setState({
+            firstName: value
+        })
+    }
+
+    lastNameUpdate(value) {
+        this.setState({
+            lastName: value
+        })
+    }
+
+    componentWillReceiveProps() {
+        console.log(this.props.users, this.props.index);
+        // if(this.props.index != null){
+        //     this.setState({
+        //         firstName: this.props.users[this.props.index].split(" ")[0],
+        //         lastName: this.props.users[this.props.index].split(" ")[1]
+        //     })
+        // }
+    }
+    updateButtonStyle = {
+        height: 30,
+        width: 80,
+        backgroundColor: "yellow",
+        color: "red"
+
+    }
+
+
+    updateUserStyle = {
+        margin: "auto",
+        width: "fit-content"
         
-        return ( 
-            <div id = "updateUsers">
-                <input id = "firstName"  defaultValue = {firstName} placeholder = "Enter FirstName" type= "text"/>
-                <input id = "lastName" defaultValue = {lastName} placeholder = "Enter LastName" type= "text"/>
-                <button> Update </button>
+    }
+
+    inputsStyle = {
+        width : 200,
+        height: 30,
+        fontFamily : "Georgia",
+        fontSize : 20,
+        backgroundColor : "lightyellow"
+    }
+
+    buttonStyle = {
+        width : 100,
+        height : 30,
+        backgroundColor : "brown",
+        color : "white"
+    }
+
+    labelStyle = {
+        width : 200,
+        height: 30,
+        fontFamily : "Georgia",
+        fontSize : 20,
+    }
+
+    showInputs() {
+        return (
+            <div id="updateUsers" style={this.updateUserStyle}>
+                <h1><center>Update Details</center></h1><br/>
+                <label style = {this.labelStyle} >First Name : </label>
+                <input id="firstName" style = {this.inputsStyle} onChange={(e) => this.firstNameUpdate(e.target.value)} value={this.state.firstName} placeholder="Enter FirstName" type="text" />
+                <br/>
+                <label style = {this.labelStyle}>Last Name &nbsp;: </label> <input id="lastName" style = {this.inputsStyle} onChange={(e) => this.lastNameUpdate(e.target.value)} value={this.state.lastName} placeholder="Enter LastName" type="text" />
+                <br/>
+                <button style = {this.buttonStyle} onClick={() => this.props.updateName(document.getElementById("firstName").value
+                    , document.getElementById("lastName").value, this.props.index
+                )}> Update </button>
             </div>
-         );
+        )
+    }
+
+    render() {
+        if (this.props.index !== null) {
+            return (
+                this.showInputs()
+            );
+        }
+        else {
+            return null;
+        }
+
     }
 }
- 
+
 export default UserDetails;
